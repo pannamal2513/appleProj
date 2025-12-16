@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM devopsedu/webapp:latest
 RUN apt update
 RUN apt install -y apache2
 COPY website/ /var/www/html
