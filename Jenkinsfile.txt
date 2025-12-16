@@ -1,0 +1,43 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Job 1: Install Puppet Agent') {
+            agent { label 'test-server' }
+            steps {
+                sh '''
+                chmod +x puppet/install_puppet_agent.sh
+                sudo ./puppet/install_puppet_agent.sh
+                '''
+            }
+        }
+
+        stage('Job 2: Install Docker using Ansible') {
+            agent { label 'master' }
+            steps {
+                sh '''
+                ansible-playbook -i inventory ansible/install_docker.yml
+                '''
+            }
+        }
+
+        stage('Job 3: Build & Deploy PHP Docker App') {
+            agent { label 'test-server' }
+            steps {
+                sh '''
+                docker build -t applebite-php .
+                docker run -d --name applebite_app -p 80:80 applebite-php
+                '''
+            }
+
+            post {
+                failure {
+                    sh '''
+                    docker rm -f applebite_app || true
+                    '''
+                }
+            }
+        }
+    }
+}
