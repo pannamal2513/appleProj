@@ -8,7 +8,7 @@ pipeline {
         }         
         stage('Build Docker Image') { 
             steps { 
-                sh 'docker build -t php-ubuntu:18.04 –f C:\Users\poora\OneDrive\Desktop\local\gitproject\appleProj 
+                sh 'docker build -t php-ubuntu:18.04 –f Dockerfile 
 C:\Users\poora\OneDrive\Desktop\local\gitproject\appleProj'
             } 
         } 
