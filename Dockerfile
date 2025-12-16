@@ -1,4 +1,4 @@
-FROM devopsedu/webapp:latest
+FROM devopsedu/ubuntu
 RUN apt update
 RUN apt install -y apache2
 COPY website/ /var/www/html
